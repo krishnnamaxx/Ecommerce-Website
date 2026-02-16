@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ShopEasy</title>
+
+  <!-- React -->
+  <script src="https://unpkg.com/supersimpledev/react.js"></script>
+  <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+  <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [cart, setCart] = useState(0);
+      const [search, setSearch] = useState("");
+
+      const products = [
+        { name:"Sneakers", price:2499, img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+        { name:"Headphones", price:1999, img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"},
+        { name:"Watch", price:2999, img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"},
+        { name:"Backpack", price:1799, img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"},
+        { name:"Sunglasses", price:999, img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500"},
+        { name:"Laptop", price:55999, img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500"},
+        { name:"Phone", price:45999, img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500"},
+        { name:"Camera", price:38999, img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500"}
+      ];
+
+      // 🔍 Filter products by search
+      const filteredProducts = products.filter(p =>
+        p.name.toLowerCase().includes(search.toLowerCase())
+      );
+
+      return (
+        <div>
+
+          {/* Navbar */}
+          <div className="flex justify-between items-center p-4 bg-white shadow">
+            <h1 className="text-2xl font-bold text-indigo-600">
+              ShopEasy
+            </h1>
+
+            <div className="font-semibold text-lg">
+              🛒 Cart: {cart}
+            </div>
+          </div>
+
+          {/* Hero */}
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center p-10">
+            <h2 className="text-4xl font-bold mb-3">
+              Welcome to ShopEasy
+            </h2>
+            <p>Best products. Best prices.</p>
+
+            {/* 🔍 Search Bar */}
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="mt-6 px-4 py-2 w-72 text-black rounded-lg shadow"
+              value={search}
+              onChange={(e)=>setSearch(e.target.value)}
+            />
+          </div>
+
+          {/* Products */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-8">
+
+            {filteredProducts.length === 0 && (
+              <h2 className="text-xl font-semibold">
+                No products found 😢
+              </h2>
+            )}
+
+            {filteredProducts.map((p,index)=>(
+              <div key={index} className="bg-white rounded-xl shadow hover:shadow-xl transition p-4">
+
+                <img
+                  src={p.img}
+                  className="h-48 w-full object-cover rounded-lg"
+                />
+
+                <h2 className="text-xl font-semibold mt-3">
+                  {p.name}
+                </h2>
+
+                <p className="text-lg font-bold text-green-600">
+                  ₹{p.price}
+                </p>
+
+                <button
+                  className="bg-indigo-600 text-white px-4 py-2 mt-3 rounded w-full hover:bg-indigo-700"
+                  onClick={()=>setCart(cart+1)}
+                >
+                  Add to Cart
+                </button>
+
+              </div>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="text-center p-6 bg-white">
+            <p className="text-gray-500">
+              © 2026 ShopEasy. All rights reserved.
+            </p>
+          </div>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
